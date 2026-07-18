@@ -4,7 +4,7 @@
 // ★ 楽天アフィリエイトに登録したら、下の RAKUTEN_AFFILIATE_ID に発行された ID を入れること。
 //   空文字のあいだは楽天リンク/CTA は一切描画されない(=登録前でも安全にデプロイできる)。
 //   ID はリンクに現れる公開情報なので秘匿不要。たびそめ。と同じ ID を使ってよい。
-const RAKUTEN_AFFILIATE_ID = "";
+const RAKUTEN_AFFILIATE_ID = "55e0a081.15b5afa8.55e0a082.96242fc0";
 
 // 楽天アフィリエイトのラッパURL。targetUrl は楽天ドメインの遷移先。ID 未設定なら空文字を返す。
 function rakutenLink(targetUrl) {
