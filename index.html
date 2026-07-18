@@ -105,9 +105,11 @@
     <div class="dialog-map-box" id="dialog-map-box"></div>
     <div class="dialog-actions">
       <a class="map-link" id="dialog-gmap" target="_blank" rel="noopener">Googleマップで開く →</a>
+      <a class="shop-link" id="dialog-shop" target="_blank" rel="noopener sponsored" hidden></a>
       <button id="dialog-star"></button>
       <button id="dialog-visited"></button>
     </div>
+    <p class="affiliate-note" id="dialog-affiliate-note" hidden>※ おでかけグッズのリンクは楽天アフィリエイトを利用しています。</p>
     <label class="memo-label" for="memo-input">うちのコのメモ</label>
     <textarea id="memo-input" placeholder="行った時間帯、犬の反応、また行きたい理由…"></textarea>
     <p class="sub-heading" id="nearby-heading" hidden>あわせてあるきたい</p>
@@ -119,10 +121,12 @@
 <footer class="site-footer">
   <p class="footer-brand">わんこみち<span class="brand-dot">。</span></p>
   <p>犬連れ家庭のための、全国お散歩スポットの手引き。<span id="footer-total"></span>のスポットを犬目線の情報つきで紹介しています。写真は Wikimedia Commons のものを使用し、各写真にクレジットを表示しています。</p>
+  <p class="footer-guide">特集: <a href="guide/">まとめ記事(地域・場所タイプ・設備・季節から探す)</a></p>
   <p class="footer-sister">姉妹サイト: <a href="https://tabisome.netlify.app/" target="_blank" rel="noopener">たびそめ。— 国内旅行おすすめスポット</a></p>
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="config.js"></script>
 <script src="spots.js"></script>
 <script src="main.js"></script>
 </body>

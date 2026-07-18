@@ -148,6 +148,19 @@ function fillPhotoBox(container, spot, width) {
 function mapUrl(spot) {
   return "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(spot.mapQuery);
 }
+// おでかけグッズ検索リンク(楽天市場)。不足設備で検索語を文脈化する。
+// config.js の楽天アフィリエイトID が未設定なら空文字を返す(=CTA を出さない)
+function shopSearchUrl(spot) {
+  if (typeof rakutenItemSearch !== "function") return "";
+  const keyword = !spot.features.includes("足洗い場") ? "犬 携帯 足洗い ボトル"
+    : !spot.features.includes("水飲み場") ? "犬 携帯 給水 ボトル"
+    : "犬 お散歩 グッズ";
+  return rakutenItemSearch(keyword);
+}
+// 楽天アフィリエイトが有効か(開示表示の出し分けに使う)
+function affiliateActive() {
+  return typeof RAKUTEN_AFFILIATE_ID !== "undefined" && !!RAKUTEN_AFFILIATE_ID;
+}
 
 // ---- 現在地と距離 ----
 // 2点間の概算距離(km)。近い順の並べ替えと表示用なのでハーバサインで十分
@@ -572,6 +585,12 @@ function openSpot(id) {
   cautionEl.textContent = spot.caution ? "⚠ " + spot.caution : "";
 
   document.getElementById("dialog-gmap").href = mapUrl(spot);
+  const shopLink = document.getElementById("dialog-shop");
+  const shopUrl = shopSearchUrl(spot);
+  shopLink.href = shopUrl || "#";
+  shopLink.textContent = "🛍 おでかけグッズを楽天で探す";
+  shopLink.hidden = !shopUrl;
+  document.getElementById("dialog-affiliate-note").hidden = !affiliateActive();
   refreshDialogButtons();
   memoInput.value = wishlist[id]?.memo || "";
 

@@ -878,6 +878,18 @@ button { font-family: var(--sans); }
   color: #fff;
   text-decoration: none;
 }
+.dialog-actions .shop-link {
+  border: 1px solid #bf0000;
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: var(--text-base);
+  color: #bf0000;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease-out, color 0.2s ease-out;
+}
+.dialog-actions .shop-link:hover { background: #bf0000; color: #fff; }
+.affiliate-note { margin: calc(var(--sp-2, 6px) * -0.5) 0 0; font-size: var(--text-sm, 12px); color: var(--ink-soft, #8a857b); }
 .dialog-actions button {
   display: inline-flex;
   align-items: center;
