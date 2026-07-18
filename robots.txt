@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://wankomichi.netlify.app/sitemap.xml

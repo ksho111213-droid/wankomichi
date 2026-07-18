@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>わんこみち。— 犬とあるける全国のお散歩スポット</title>
+<meta name="description" content="犬連れ家庭のための国内お散歩スポットガイド。リードのきまり・足洗い場・木陰の量まで犬目線でまとめました。地図と現在地から、今日あるく道を見つけよう。">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#f8f4ec">
+<link rel="canonical" href="https://wankomichi.netlify.app/">
+<!-- Open Graph(SNS共有時のプレビュー) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="わんこみち">
+<meta property="og:title" content="わんこみち。— 犬とあるける全国のお散歩スポット">
+<meta property="og:description" content="犬連れ家庭のための国内お散歩スポットガイド。リードのきまり・足洗い場・木陰の量まで犬目線でまとめました。地図と現在地から、今日あるく道を見つけよう。">
+<meta property="og:url" content="https://wankomichi.netlify.app/">
+<!-- og:image はリダイレクトを追わないスクレイパー(LINE等)向けに upload.wikimedia.org の直URLを使う -->
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/%E5%AF%8C%E5%A3%AB%E5%B1%B1%E3%81%A8%E5%B1%B1%E4%B8%AD%E6%B9%96_-_Mt.Fuji_and_Lake_Yamanaka-ko_-_panoramio.jpg/1280px-%E5%AF%8C%E5%A3%AB%E5%B1%B1%E3%81%A8%E5%B1%B1%E4%B8%AD%E6%B9%96_-_Mt.Fuji_and_Lake_Yamanaka-ko_-_panoramio.jpg">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="わんこみち。— 犬とあるける全国のお散歩スポット">
+<meta name="twitter:description" content="犬連れ家庭のための国内お散歩スポットガイド。全国のお散歩スポットを犬目線の情報つきで。">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/%E5%AF%8C%E5%A3%AB%E5%B1%B1%E3%81%A8%E5%B1%B1%E4%B8%AD%E6%B9%96_-_Mt.Fuji_and_Lake_Yamanaka-ko_-_panoramio.jpg/1280px-%E5%AF%8C%E5%A3%AB%E5%B1%B1%E3%81%A8%E5%B1%B1%E4%B8%AD%E6%B9%96_-_Mt.Fuji_and_Lake_Yamanaka-ko_-_panoramio.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "わんこみち",
+  "alternateName": "Wankomichi — Dog Walk Spots Japan",
+  "url": "https://wankomichi.netlify.app/",
+  "description": "犬連れ家庭のための、全国のお散歩スポットを犬目線の情報つきで紹介する国内向けガイド。",
+  "inLanguage": "ja"
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐾</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-photo" id="hero-photo"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">犬と、いい道を。</p>
+    <h1>わんこみち<span class="brand-dot">。</span></h1>
+    <p class="hero-lead">全国から選んだ、犬とあるける<span id="spot-total"></span>のお散歩スポット。リードのきまり・足洗い場・木陰の量まで、犬目線でまとめました。</p>
+    <div class="hero-trail" aria-hidden="true"></div>
+  </div>
+  <span class="hero-credit" id="hero-credit"></span>
+</header>
+
+<section class="seasonal" id="seasonal-section" hidden>
+  <h2 class="seasonal-heading">いまの季節におすすめ<span id="seasonal-month"></span></h2>
+  <div class="seasonal-strip" id="seasonal-strip"></div>
+</section>
+
+<nav class="view-tabs" aria-label="表示切り替え">
+  <a class="brand" href="#">わんこみち<span class="brand-dot">。</span></a>
+  <button id="tab-list" class="active">スポットをさがす</button>
+  <button id="tab-map">地図からさがす</button>
+</nav>
+
+<div class="controls" id="spot-controls">
+  <div class="search-row">
+    <input type="text" id="search-box" placeholder="スポット名・キーワードで検索">
+    <select id="prefecture-select">
+      <option value="">都道府県: すべて</option>
+    </select>
+  </div>
+  <div class="region-tabs" id="region-tabs"></div>
+  <div class="chip-rows">
+    <div class="category-chips" id="category-chips"></div>
+    <div class="feature-chips" id="feature-chips"></div>
+  </div>
+  <div class="tools-bar">
+    <button id="near-btn">📍 いまいる場所から近い順</button>
+    <button id="wishlist-toggle">⭐ いきたいリスト (<span id="wishlist-count">0</span>)</button>
+  </div>
+  <p id="result-count"></p>
+</div>
+
+<div class="cards" id="cards"></div>
+<p id="empty-message" hidden>条件に合うスポットがありません<button id="clear-filters">条件をクリアして全件を見る</button></p>
+
+<div class="map-wrap" id="map-view" hidden>
+  <div id="big-map"></div>
+  <p class="map-note">ピンを押すとスポットの詳細が見られます。絞り込みは「スポットをさがす」タブの条件が反映されます。</p>
+</div>
+
+<dialog id="spot-dialog" aria-labelledby="dialog-title">
+  <div class="dialog-photo" id="dialog-photo">
+    <button class="dialog-close" id="dialog-close" aria-label="閉じる">✕</button>
+  </div>
+  <div class="dialog-body">
+    <h2 id="dialog-title"></h2>
+    <p class="dialog-place" id="dialog-place"></p>
+    <div class="tags" id="dialog-tags"></div>
+    <p class="dialog-desc" id="dialog-desc"></p>
+    <dl class="info-grid" id="dialog-info"></dl>
+    <div class="feature-list" id="dialog-features"></div>
+    <p class="caution-box" id="dialog-caution" hidden></p>
+    <div class="dialog-map-box" id="dialog-map-box"></div>
+    <div class="dialog-actions">
+      <a class="map-link" id="dialog-gmap" target="_blank" rel="noopener">Googleマップで開く →</a>
+      <button id="dialog-star"></button>
+      <button id="dialog-visited"></button>
+    </div>
+    <label class="memo-label" for="memo-input">うちのコのメモ</label>
+    <textarea id="memo-input" placeholder="行った時間帯、犬の反応、また行きたい理由…"></textarea>
+    <p class="sub-heading" id="nearby-heading" hidden>あわせてあるきたい</p>
+    <div class="nearby-list" id="nearby-list"></div>
+    <p class="rule-disclaimer">※ ペットに関するルールや料金は変わることがあります。おでかけ前に公式サイトでご確認ください。</p>
+  </div>
+</dialog>
+
+<footer class="site-footer">
+  <p class="footer-brand">わんこみち<span class="brand-dot">。</span></p>
+  <p>犬連れ家庭のための、全国お散歩スポットの手引き。<span id="footer-total"></span>のスポットを犬目線の情報つきで紹介しています。写真は Wikimedia Commons のものを使用し、各写真にクレジットを表示しています。</p>
+  <p class="footer-sister">姉妹サイト: <a href="https://tabisome.netlify.app/" target="_blank" rel="noopener">たびそめ。— 国内旅行おすすめスポット</a></p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="spots.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
